@@ -5,37 +5,35 @@
 {% endblock %}
 
 {% block head %}
+<script src="{{ url_for('static', filename='index.js')}}"></script>
+{% endblock %}
+
+{% block channels%}
+
+<!-- create channel -->
+<form action="{{url_for('new_channel')}}" method="post" id='newchannel'>
+  <input class="form-control" id="newchannel" name="name" aria-describedby="newchannel"
+  placeholder="Create a new channel">
+  <button type="submit" class="btn btn-primary">Create</button>
+</form>
+
+<ul>
+  {% for channel in channels%}
+  <li>
+    <a class="channels" href="#">{{channel}}</a>
+  </li>
+  {% endfor %}
+</ul>
+
 
 {% endblock %}
 
 {% block body %}
-<h1 id='counter'>0</h1>
+<p id='username'></p>
+<div class="container" id="message-box">
 
 
-
-<script>
-
+</div>
 
 
-  //Load user name
-  document.addEventListener('DOMContentLoaded', ()=>{
-    //Testomg
-      //localStorage.removeItem('user')
-
-    //If first time user, prompt for a user name
-    if(!localStorage.getItem('user')){
-
-      console.log("no user")
-      var username = prompt("Please enter a username to display:");
-      localStorage.setItem('user', username);
-    }
-    else{
-      console.log("user exists")
-      console.log(localStorage.getItem('user'))
-    }
-
-    document.querySelector('#counter').innerHTML= localStorage.getItem('user');
-  })
-
-</script>
 {% endblock %}

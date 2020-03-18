@@ -1,7 +1,7 @@
 import os
 import json
 from datetime import datetime
-from flask import Flask, render_template, request, flash
+from flask import Flask, render_template, request, flash, jsonify
 from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
@@ -10,26 +10,24 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 socketio = SocketIO(app)
 
 channels = []
-channels.append("test channel")
+channels.append("default")
 map = {}
-current_channel = "test channel"
+
 
 # Generate some fake messages for testing
-msg_test = [];
-map["test channel"] = msg_test;
-msg_test.append({
-    "user" : "keybao",
-    "msg" : "hello 1",
-    "time":"2020/03/18 9:55:00"
-})
-
-msg_test.append({
-    "user" : "keybao2",
-    "msg" : "hello2",
-    "time":"2020/03/18 9:55:00"
-})
-
-
+# msg_test = [];
+# map["default"] = msg_test;
+# msg_test.append({
+#     "user" : "keybao",
+#     "msg" : "hello 1",
+#     "time":"2020/03/18 9:55:00"
+# })
+#
+# msg_test.append({
+#     "user" : "keybao2",
+#     "msg" : "hello2",
+#     "time":"2020/03/18 9:55:00"
+# })
 
 @app.route("/")
 def index():
@@ -48,9 +46,6 @@ def new_channel():
     map[input] = messages
     channels.append(input)
 
-    #Genera Testing msgs
-    messages.append({"user":"keybao3", "msg":"test3", "time":"2020/03/18 9:55:00"})
-    #
     flash("Channel created")
     return render_template("index.html", channels = channels)
 
@@ -62,7 +57,7 @@ def getmessages():
 
     #Make sure channel exists
     if(channel not in channels):
-        return render_template("error.html", message = "Channel does not exist.")
+        return jsonify({"fail":"true"})
 
     #Get the message from the channel and return
     messages = map[channel]

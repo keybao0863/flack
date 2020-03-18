@@ -9,7 +9,7 @@
 <!-- create channel -->
 <form action="{{url_for('new_channel')}}" method="post" id='newchannel'>
   <input class="form-control" required="required" id="newchannel" name="name" aria-describedby="newchannel"
-  placeholder="Create a new channel">
+  placeholder="Create a new channel" autocomplete="off">
   <button type="submit" class="btn btn-primary">Create</button>
 </form>
 
@@ -33,7 +33,7 @@
 <div class="container" id="send-box">
 
   <input required="required" id="send" name="send" aria-describedby="send-message"
-  placeholder="Type a message">
+  placeholder="Type a message" autocomplete="off">
   <button class="btn btn-primary" id="send-button">Send</button>
 
 

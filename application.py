@@ -12,11 +12,11 @@ socketio = SocketIO(app)
 channels = []
 channels.append("default")
 map = {}
-
+msg_test = [];
+map["default"] = msg_test;
 
 # Generate some fake messages for testing
-# msg_test = [];
-# map["default"] = msg_test;
+
 # msg_test.append({
 #     "user" : "keybao",
 #     "msg" : "hello 1",
@@ -77,7 +77,7 @@ def send(data):
 
     #Get current time
     dt = datetime.now()
-    time = dt.strftime("%d. %B %Y %I:%M%p ")
+    time = dt.strftime("%m/%d/%y %I:%M%p ")
 
     #Add to current message list
     # TODO: Make sure message list is not over 100

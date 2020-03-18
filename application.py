@@ -11,6 +11,7 @@ socketio = SocketIO(app)
 channels = []
 channels.append("test channel")
 map = {}
+current_channel = "test channel"
 
 # Generate some fake messages for testing
 msg_test = [];
@@ -62,4 +63,23 @@ def getmessages():
 
     #Get the message from the channel and return
     messages = map[channel]
+
+    #Change current channel
+    global current_channel
+    current_channel = channel
+
     return json.dumps(messages)
+
+@socketio.on('send message')
+def send(data):
+
+    #Retrieve message
+    user = data["user"];
+    message = data["message"]
+
+    #Add to current message list
+    # TODO: Make sure message list is not over 100
+    map[current_channel].append({"user":user, "msg":message});
+
+    #Broadcast message
+    emit("announce message", {"user":user, "message":message}, broadcast = True)

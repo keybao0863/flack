@@ -1,15 +1,11 @@
 {% extends "layout.html" %}
 
-{% block heading %}
-  Flack
-{% endblock %}
-
 {% block head %}
 <script src="{{ url_for('static', filename='index.js')}}"></script>
 {% endblock %}
 
-{% block channels%}
 
+{% block channels%}
 <!-- create channel -->
 <form action="{{url_for('new_channel')}}" method="post" id='newchannel'>
   <input class="form-control" required="required" id="newchannel" name="name" aria-describedby="newchannel"
@@ -24,16 +20,20 @@
   </li>
   {% endfor %}
 </ul>
-
-
 {% endblock %}
+
 
 {% block body %}
 <p id='username'></p>
 <div class="container" id="message-box">
+</div>
+
+<div class="container" id="send-box">
+
+  <input required="required" id="send" name="send" aria-describedby="send-message"
+  placeholder="Type a message">
+  <button class="btn btn-primary" id="send-button">Send</button>
 
 
 </div>
-
-
 {% endblock %}

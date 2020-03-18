@@ -1,5 +1,38 @@
 //Load user name
 document.addEventListener('DOMContentLoaded', ()=>{
+  ///Configure Websocket
+
+  // Connect to websocket
+  var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
+
+  //When connected, configure send button
+  socket.on('connect', () => {
+    document.querySelector("#send-button").onclick = () =>{
+
+      //Get the message
+      const user = localStorage.getItem('user')
+      const msg = document.querySelector("#send").value
+
+      //Emit message
+      socket.emit('send message', {'user':user, 'message':msg})
+
+      //Clear input box
+      document.querySelector("#send").value=""
+    }
+  })
+
+  //When message is annouced, add to message list
+  socket.on('announce message', data =>{
+
+    //Create Element to hold message
+    let msg_div = document.createElement("div")
+    msg_div.innerHTML = data.user +": " + data.message
+
+    // Append to message box
+    document.querySelector("#message-box").appendChild(msg_div)
+  })
+
+
 
   //If first time user, prompt for a user name
   if(!localStorage.getItem('user')){
@@ -14,7 +47,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   }
 
   //Display username in the message box
-  document.querySelector('#username').innerHTML= localStorage.getItem('user');
+  document.querySelector('#username').innerHTML= "You are logged in as: " + localStorage.getItem('user');
 
   //Once a channel is clicked, load its messages
   document.querySelectorAll('.channels').forEach(channel => {
@@ -60,5 +93,15 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
   });
 
-
+  //Allow send button to be pushed with Enter key
+  // Execute a function when the user releases a key on the keyboard
+  document.addEventListener("keyup", function(event) {
+    // Number 13 is the "Enter" key on the keyboard
+    if (event.keyCode === 13) {
+      // Cancel the default action, if needed
+      event.preventDefault();
+      // Trigger the button element with a click
+      document.querySelector("#send-button").click();
+    }
+  });
 })

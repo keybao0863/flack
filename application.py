@@ -1,5 +1,5 @@
 import os
-
+import json
 from flask import Flask, render_template, request, flash
 from flask_socketio import SocketIO, emit
 
@@ -11,6 +11,21 @@ socketio = SocketIO(app)
 channels = []
 channels.append("test channel")
 map = {}
+
+# Generate some fake messages for testing
+msg_test = [];
+map["test channel"] = msg_test;
+msg_test.append({
+    "user" : "keybao",
+    "msg" : "hello 1"
+})
+
+msg_test.append({
+    "user" : "keybao2",
+    "msg" : "hello2"
+})
+
+
 
 @app.route("/")
 def index():
@@ -28,5 +43,23 @@ def new_channel():
     messages = []
     map[input] = messages
     channels.append(input)
+
+    #Genera Testing msgs
+    messages.append({"user":"keybao3", "msg":"test3"})
+    #
     flash("Channel created")
     return render_template("index.html", channels = channels)
+
+@app.route("/getmessages", methods=["POST"])
+def getmessages():
+
+    #Find which channel is requesting
+    channel = request.form["channel"]
+
+    #Make sure channel exists
+    if(channel not in channels):
+        return render_template("error.html", message = "Channel does not exist.")
+
+    #Get the message from the channel and return
+    messages = map[channel]
+    return json.dumps(messages)

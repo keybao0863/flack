@@ -12,7 +12,7 @@
 
 <!-- create channel -->
 <form action="{{url_for('new_channel')}}" method="post" id='newchannel'>
-  <input class="form-control" id="newchannel" name="name" aria-describedby="newchannel"
+  <input class="form-control" required="required" id="newchannel" name="name" aria-describedby="newchannel"
   placeholder="Create a new channel">
   <button type="submit" class="btn btn-primary">Create</button>
 </form>

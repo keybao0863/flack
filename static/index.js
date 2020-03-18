@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
     //Create Element to hold message
     let msg_div = document.createElement("div")
-    msg_div.innerHTML = data.user +": " + data.message
+    msg_div.innerHTML = data.time + " " + data.user +": " + data.message
 
     // Append to message box
     document.querySelector("#message-box").appendChild(msg_div)
@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
           //Creat element
           let msg_div = document.createElement("div")
-          msg_div.innerHTML = item.user +": " + item.msg
+          msg_div.innerHTML = item.time +" " +item.user +": " + item.msg
 
           // Append to message box
           document.querySelector("#message-box").appendChild(msg_div)

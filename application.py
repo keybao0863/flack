@@ -1,5 +1,6 @@
 import os
 import json
+from datetime import datetime
 from flask import Flask, render_template, request, flash
 from flask_socketio import SocketIO, emit
 
@@ -18,12 +19,14 @@ msg_test = [];
 map["test channel"] = msg_test;
 msg_test.append({
     "user" : "keybao",
-    "msg" : "hello 1"
+    "msg" : "hello 1",
+    "time":"2020/03/18 9:55:00"
 })
 
 msg_test.append({
     "user" : "keybao2",
-    "msg" : "hello2"
+    "msg" : "hello2",
+    "time":"2020/03/18 9:55:00"
 })
 
 
@@ -46,7 +49,7 @@ def new_channel():
     channels.append(input)
 
     #Genera Testing msgs
-    messages.append({"user":"keybao3", "msg":"test3"})
+    messages.append({"user":"keybao3", "msg":"test3", "time":"2020/03/18 9:55:00"})
     #
     flash("Channel created")
     return render_template("index.html", channels = channels)
@@ -77,9 +80,13 @@ def send(data):
     user = data["user"];
     message = data["message"]
 
+    #Get current time
+    dt = datetime.now()
+    time = dt.strftime("%d. %B %Y %I:%M%p ")
+
     #Add to current message list
     # TODO: Make sure message list is not over 100
-    map[current_channel].append({"user":user, "msg":message});
+    map[current_channel].append({"user":user, "msg":message, "time":time});
 
     #Broadcast message
-    emit("announce message", {"user":user, "message":message}, broadcast = True)
+    emit("announce message", {"user":user, "message":message, "time":time}, broadcast = True)

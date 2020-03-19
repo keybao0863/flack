@@ -13,6 +13,7 @@ channels = []
 channels.append("default")
 map = {}
 msg_test = [];
+
 map["default"] = msg_test;
 
 # Generate some fake messages for testing
@@ -80,8 +81,11 @@ def send(data):
     time = dt.strftime("%m/%d/%y %I:%M%p ")
 
     #Add to current message list
-    # TODO: Make sure message list is not over 100
     map[current_channel].append({"user":user, "msg":message, "time":time});
+
+    # Make sure message list is not over 100
+    if(len(map[current_channel]) > 100):
+        map[current_channel] = map[current_channel][-100:]
 
     #Broadcast message
     emit("announce message", {"user":user, "message":message, "time":time}, broadcast = True)

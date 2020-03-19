@@ -16,20 +16,6 @@ msg_test = [];
 
 map["default"] = msg_test;
 
-# Generate some fake messages for testing
-
-# msg_test.append({
-#     "user" : "keybao",
-#     "msg" : "hello 1",
-#     "time":"2020/03/18 9:55:00"
-# })
-#
-# msg_test.append({
-#     "user" : "keybao2",
-#     "msg" : "hello2",
-#     "time":"2020/03/18 9:55:00"
-# })
-
 @app.route("/")
 def index():
     return render_template('index.html', channels = channels)

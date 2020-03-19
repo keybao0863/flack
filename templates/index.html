@@ -6,34 +6,41 @@
 
 
 {% block channels%}
-<!-- create channel -->
-<form action="{{url_for('new_channel')}}" method="post" id='newchannel'>
-  <input class="form-control" required="required" id="newchannel" name="name" aria-describedby="newchannel"
-  placeholder="Create a new channel" autocomplete="off">
-  <button type="submit" class="btn btn-primary">Create</button>
-</form>
-
-<ul>
+<h2>List of channels:</h2>
+<ul id='channel-list'>
   {% for channel in channels%}
   <li>
     <a class="channels" href="#">{{channel}}</a>
   </li>
   {% endfor %}
 </ul>
+
+<!-- create channel -->
+<div class="container" id="channel-form">
+  <form action="{{url_for('new_channel')}}" method="post" id='newchannel'>
+    <input class="form-control" required="required" name="name" aria-describedby="newchannel"
+    placeholder="Create a new channel" autocomplete="off">
+    <button type="submit" class="btn btn-primary">Create</button>
+  </form>
+</div>
+
 {% endblock %}
 
 
 {% block body %}
-<p id='username'></p>
-<p id='channel-name'></p>
+<div class="container" id="info">
+  <p id='username'></p>
+  <p id='channel-name'></p>
+</div>
+
 
 <div class="container" id="message-box">
 </div>
 
 <div class="container" id="send-box">
 
-  <input required="required" id="send" name="send" aria-describedby="send-message"
-  placeholder="Type a message" autocomplete="off">
+  <input required="required" id="msg-input" name="send" aria-describedby="send-message"
+   autocomplete="off">
   <button class="btn btn-primary" id="send-button">Send</button>
 
 

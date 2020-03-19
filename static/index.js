@@ -11,13 +11,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
       //Get the message
       const user = localStorage.getItem('user')
-      const msg = document.querySelector("#send").value
+      const msg = document.querySelector("#msg-input").value
 
       //Emit message
       socket.emit('send message', {'user':user, 'message':msg})
 
       //Clear input box
-      document.querySelector("#send").value=""
+      document.querySelector("#msg-input").value=""
     }
   })
 
@@ -30,6 +30,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
     // Append to message box
     document.querySelector("#message-box").appendChild(msg_div)
+
+    //Scroll down as new msg comes in
+    let element = document.querySelector("#message-box");
+    element.scrollTop = element.scrollHeight;
   })
 
 
@@ -74,7 +78,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
       // Extract messages from response
       const data = JSON.parse(request.responseText);
 
-      //Redirect to default channel if channel does not exist 
+      //Redirect to default channel if channel does not exist
       if(data.hasOwnProperty('fail')){
         getMessages('default');
         return false;
@@ -95,7 +99,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
         // Append to message box
         document.querySelector("#message-box").appendChild(msg_div)
-      });
+            });
 
       //Change current channel name
       document.querySelector('#channel-name').innerHTML = "Current channel: " + channel_name
@@ -128,4 +132,17 @@ document.addEventListener('DOMContentLoaded', ()=>{
       document.querySelector("#send-button").click();
     }
   });
+
+  //Allow user to logoff
+  document.querySelector("#logoff").onclick = () =>{
+
+    //Remove user and prompt for new username.
+    localStorage.removeItem('user')
+    var username = prompt("Please enter a username to display:");
+    localStorage.setItem('user', username);
+
+    //Display username in the message box
+    document.querySelector('#username').innerHTML= "You are logged in as: " + localStorage.getItem('user');
+  }
+
 })
